@@ -13,8 +13,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DemoEntity {
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Id
-	private String uuid;
-	private String name;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    private String uuid;
+
+    private String name;
 }

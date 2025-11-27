@@ -13,27 +13,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-	@Bean
-	public OpenAPI openAPI() {
-		return new OpenAPI()
-				.addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-				.components(new Components().addSecuritySchemes("Bearer Authentication", createSecurityScheme()))
-				.info(new Info()
-						.title("Cosy API")
-						.description("Management API for Cosy (Cost Optimised Server Yard).")
-						.version("v1.0")
-						.contact(new Contact()
-								.name("Cosy Team")
-								.url("https://github.com/magenta-mause"))
-						.license(new License()
-								.name("MIT")
-								.url("https://opensource.org/licenses/MIT")));
-	}
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        "Bearer Authentication", createSecurityScheme()))
+                .info(
+                        new Info()
+                                .title("Cosy API")
+                                .description(
+                                        "Management API for Cosy (Cost Optimised Server Yard).")
+                                .version("v1.0")
+                                .contact(
+                                        new Contact()
+                                                .name("Cosy Team")
+                                                .url("https://github.com/magenta-mause"))
+                                .license(
+                                        new License()
+                                                .name("MIT")
+                                                .url("https://opensource.org/licenses/MIT")));
+    }
 
-	private SecurityScheme createSecurityScheme() {
-		return new SecurityScheme()
-				.type(SecurityScheme.Type.HTTP)
-				.bearerFormat("JWT")
-				.scheme("bearer");
-	}
+    private SecurityScheme createSecurityScheme() {
+        return new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
 }
