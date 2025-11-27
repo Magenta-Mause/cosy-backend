@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: cosy-backend
+server:
+  servlet:
+    context-path: /api
