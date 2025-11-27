@@ -27,7 +27,7 @@ for development.
 
 ```shell
 cd infrastructure  
-docker compose up \-d
+docker compose up -d
 ```
 
 ### **2\. Configuration**
