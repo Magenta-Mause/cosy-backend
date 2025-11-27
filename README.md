@@ -32,12 +32,6 @@ docker compose up -d
 
 ### **2\. Configuration**
 
-Copy the example environment file and adjust if necessary (usually defaults work for dev).
-
-```shell
-cp .env.example .env
-```
-
 Ensure your application.properties or application.yaml is configured to connect to the services started in step 1\.
 
 ### **3\. Build & Run**
