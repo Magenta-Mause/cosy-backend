@@ -1,0 +1,13 @@
+package com.magentamause.cosybackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CosyBackendApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CosyBackendApplication.class, args);
+	}
+
+}
