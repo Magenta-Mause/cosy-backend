@@ -1,6 +1,7 @@
 package com.magentamause.cosybackend.services;
 
 import com.magentamause.cosybackend.entities.DemoEntity;
+import com.magentamause.cosybackend.exceptions.EntityNotFoundException;
 import com.magentamause.cosybackend.repositories.DemoEntityRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,8 @@ public class DemoService {
     }
 
     public DemoEntity getDemoEntityById(String id) {
-        return demoEntityRepository.findById(id).orElse(null);
+        return demoEntityRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("DemoEntity not found with id: " + id));
     }
 
     public DemoEntity saveDemoEntity(DemoEntity demoEntity) {
