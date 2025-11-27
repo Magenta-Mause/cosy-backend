@@ -40,7 +40,6 @@ class DemoServiceTest {
         List<DemoEntity> result = demoService.getAllDemoEntities();
 
         assertEquals(expectedEntities, result);
-        assertEquals(2, result.size());
         verify(demoEntityRepository, times(1)).findAll();
     }
 
