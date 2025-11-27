@@ -48,7 +48,7 @@ You can start the application using the Maven wrapper:
 ./mvnw spring-boot:run
 ```
 
-The API will be available at http://localhost:8080.
+The API will be available at http://localhost:8080/api.
 
 ## **🧹 Code Style & Linting**
 
