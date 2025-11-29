@@ -13,40 +13,43 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ApiResponse<?>> handleResponseStatusException(ResponseStatusException ex) {
+    public ResponseEntity<ApiResponse<?>> handleResponseStatusException(
+            ResponseStatusException ex) {
         log.warn("Response status exception occurred", ex);
         return ResponseEntity.status(ex.getStatusCode())
-            .body(ApiResponse.builder()
-                .success(false)
-                .data(ex.getReason())
-                .error(ex.getMessage())
-                .statusCode(ex.getStatusCode().value())
-                .build());
+                .body(
+                        ApiResponse.builder()
+                                .success(false)
+                                .data(ex.getReason())
+                                .error(ex.getMessage())
+                                .statusCode(ex.getStatusCode().value())
+                                .build());
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleResourceNotFound(NoResourceFoundException ex) {
         log.warn("Resource not found: \"{}\"", ex.getResourcePath());
-        return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(ApiResponse.builder()
-                .success(false)
-                .data("Resource not found")
-                .error("404 No Resource found under \"" + ex.getResourcePath() + '"')
-                .statusCode(HttpStatus.NOT_FOUND.value())
-                .build()
-            );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        ApiResponse.builder()
+                                .success(false)
+                                .data("Resource not found")
+                                .error(
+                                        "404 No Resource found under \""
+                                                + ex.getResourcePath()
+                                                + '"')
+                                .statusCode(HttpStatus.NOT_FOUND.value())
+                                .build());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handle(Exception ex) {
         log.warn("Unexpected error occurred", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(ApiResponse.builder()
-                .success(false)
-                .data("An unexpected error occurred.")
-                .build());
+                .body(
+                        ApiResponse.builder()
+                                .success(false)
+                                .data("An unexpected error occurred.")
+                                .build());
     }
-
-
 }

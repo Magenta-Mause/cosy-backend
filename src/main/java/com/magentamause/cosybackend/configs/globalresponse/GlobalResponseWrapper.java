@@ -15,18 +15,18 @@ public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(
-        MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+            MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true; // apply to all responses
     }
 
     @Override
     public Object beforeBodyWrite(
-        Object body,
-        MethodParameter returnType,
-        MediaType selectedContentType,
-        Class<? extends HttpMessageConverter<?>> selectedConverterType,
-        ServerHttpRequest request,
-        ServerHttpResponse response) {
+            Object body,
+            MethodParameter returnType,
+            MediaType selectedContentType,
+            Class<? extends HttpMessageConverter<?>> selectedConverterType,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
 
         // Avoid double wrapping
         if (body instanceof ApiResponse) {
@@ -41,16 +41,9 @@ public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
 
         // Handle empty responses (void methods)
         if (body == null) {
-            return ApiResponse.builder()
-                .success(true)
-                .statusCode(status.value())
-                .build();
+            return ApiResponse.builder().success(true).statusCode(status.value()).build();
         }
 
-        return ApiResponse.builder()
-            .data(body)
-            .success(true)
-            .statusCode(status.value())
-            .build();
+        return ApiResponse.builder().data(body).success(true).statusCode(status.value()).build();
     }
 }

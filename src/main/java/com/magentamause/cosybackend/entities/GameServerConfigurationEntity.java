@@ -24,6 +24,7 @@ public class GameServerConfigurationEntity {
 
     @Column(nullable = false)
     private String serverName;
+
     @Column(nullable = false)
     private String ownerId;
 
@@ -34,6 +35,7 @@ public class GameServerConfigurationEntity {
 
     @Column(nullable = false)
     private String dockerImageName;
+
     private String dockerImageTag;
 
     @ElementCollection
