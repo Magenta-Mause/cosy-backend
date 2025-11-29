@@ -28,7 +28,9 @@ public class GameServerConfigurationEntity {
     @Column(nullable = false)
     private String ownerId;
 
+    @Enumerated(EnumType.STRING)
     private GameServerStatus status;
+
     private LocalDateTime timestampLastStarted;
 
     private String gameUuid;

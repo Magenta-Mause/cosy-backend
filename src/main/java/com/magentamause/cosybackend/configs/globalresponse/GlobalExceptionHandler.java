@@ -50,6 +50,7 @@ public class GlobalExceptionHandler {
                         ApiResponse.builder()
                                 .success(false)
                                 .data("An unexpected error occurred.")
+                                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                                 .build());
     }
 }
