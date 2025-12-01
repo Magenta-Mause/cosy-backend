@@ -1,10 +1,17 @@
 package com.magentamause.cosybackend.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.magentamause.cosybackend.entities.LoginEntry;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.security.JwtTokenBody;
 import com.magentamause.cosybackend.security.JwtUtils;
 import com.magentamause.cosybackend.services.JwtService;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,22 +20,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTests {
-    @Mock
-    private JwtUtils jwtUtils;
+    @Mock private JwtUtils jwtUtils;
 
-    @InjectMocks
-    private JwtService jwtService;
+    @InjectMocks private JwtService jwtService;
 
     private LoginEntry createLoginEntry() {
         LoginEntry entry = new LoginEntry();
