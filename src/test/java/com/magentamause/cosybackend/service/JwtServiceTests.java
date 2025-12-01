@@ -18,9 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTests {
     @Mock private JwtUtils jwtUtils;
