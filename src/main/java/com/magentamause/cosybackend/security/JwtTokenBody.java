@@ -1,10 +1,9 @@
 package com.magentamause.cosybackend.security;
 
 import com.magentamause.cosybackend.entities.UserEntity;
+import java.util.Collection;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Collection;
 
 @Data
 @Builder

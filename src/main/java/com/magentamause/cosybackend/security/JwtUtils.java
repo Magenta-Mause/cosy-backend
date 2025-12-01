@@ -2,14 +2,12 @@ package com.magentamause.cosybackend.security;
 
 import com.magentamause.cosybackend.security.config.JwtProperties;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
@@ -48,7 +46,7 @@ public class JwtUtils {
                 throw new SecurityException("Token type mismatch. Expected: " + tokenType);
             }
 
-            if (!"cosy-backend".equals(claims.getIssuer())){
+            if (!"cosy-backend".equals(claims.getIssuer())) {
                 throw new SecurityException("Invalid token issuer");
             }
 

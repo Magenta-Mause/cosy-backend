@@ -6,10 +6,9 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.crypto.SecretKey;
 
 @Configuration
 public class UtilConfig {
@@ -27,9 +26,6 @@ public class UtilConfig {
 
     @Bean
     public JwtParser jwtParser(SecretKey jwtSecretKey) {
-        return Jwts.parser()
-                .verifyWith(jwtSecretKey)
-                .build();
+        return Jwts.parser().verifyWith(jwtSecretKey).build();
     }
-
 }
