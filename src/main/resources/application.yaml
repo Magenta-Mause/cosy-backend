@@ -17,3 +17,15 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,readiness,liveness"
+
+cosy:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:5173
+      - https://cosy.jannekeipert.de
