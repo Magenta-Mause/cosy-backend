@@ -2,16 +2,14 @@ package com.magentamause.cosybackend.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserEntity {
 
     @Id
@@ -19,19 +17,19 @@ public class UserEntity {
     private String uuid;
 
     @Column(nullable = false)
-    private String user_name;
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private boolean default_password_reset;
+    private boolean defaultPasswordReset;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public enum Role {
-        DEFAULT,
-        ADMIN
+        OWNER,
+        QUOTA_USER
     }
 }
