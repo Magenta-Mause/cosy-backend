@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -17,6 +18,7 @@ public class UserEntityDummyService {
 
     private final DummyInstantiatedPropertiesRepository dummyInstantiatedPropertiesRepository;
     private final UserEntityService userEntityService;
+    private final PasswordEncoder passwordEncoder;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initializeAdminUserEntity() {
@@ -27,7 +29,7 @@ public class UserEntityDummyService {
 
         UserEntity adminUser = UserEntity.builder()
                 .username("admin")
-                .password()
+                .password(passwordEncoder.encode("admin"))
                 .defaultPasswordReset(false)
                 .role(UserEntity.Role.OWNER)
                 .build();
