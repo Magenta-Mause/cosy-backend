@@ -4,7 +4,9 @@ import com.magentamause.cosybackend.DTOs.LoginDto;
 import com.magentamause.cosybackend.security.jwtfilter.JwtTokenBody;
 import com.magentamause.cosybackend.security.jwtfilter.JwtUtils;
 import com.magentamause.cosybackend.services.AuthorizationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -18,8 +20,11 @@ public class AuthorizationController {
     private final AuthorizationService authorizationService;
     private final JwtUtils jwtUtils;
 
+    @Value("${server.servlet.context-path}")
+    private String basePath;
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
         String refreshToken =
                 authorizationService.loginUser(loginDto.getUsername(), loginDto.getPassword());
         ResponseCookie responseCookie =
@@ -30,6 +35,8 @@ public class AuthorizationController {
                                 jwtUtils.getTokenValidityDuration(
                                                 JwtTokenBody.TokenType.REFRESH_TOKEN)
                                         / 1000)
+                        .path(basePath + "/auth/token")
+                        .sameSite("Strict")
                         .build();
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())

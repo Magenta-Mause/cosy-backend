@@ -20,13 +20,16 @@ public class AuthorizationService {
     private final PasswordEncoder passwordEncoder;
 
     public String loginUser(String username, String plainPassword) {
-        UserEntity user = userEntityService.getUserByUsername(username);
-        if (!passwordEncoder.matches(plainPassword, user.getPassword())) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "No user found with username: " + username + " and given password found");
+        UserEntity user;
+        try {
+            user = userEntityService.getUserByUsername(username);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
-        return generateRefreshToken(user.getUuid());
+        if (user == null || !passwordEncoder.matches(plainPassword, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
+        return generateIdentityToken(user.getUuid());
     }
 
     public String fetchIdentityTokenFromRefreshToken(String refreshToken) {

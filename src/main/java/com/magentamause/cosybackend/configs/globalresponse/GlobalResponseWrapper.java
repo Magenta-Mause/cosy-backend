@@ -12,6 +12,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -79,7 +80,8 @@ public class GlobalResponseWrapper implements ResponseBodyAdvice<Object> {
             try {
                 return objectMapper.writeValueAsString(wrapped);
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Error processing response");
             }
         }
 

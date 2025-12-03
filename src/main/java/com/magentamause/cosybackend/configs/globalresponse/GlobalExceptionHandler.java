@@ -1,11 +1,17 @@
 package com.magentamause.cosybackend.configs.globalresponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -74,6 +80,33 @@ public class GlobalExceptionHandler {
                                 .error("This endpoint expects a different request body.")
                                 .path(path)
                                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .build());
+    }
+
+    @SneakyThrows
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
+        Map<String, String> errors =
+                ex.getBindingResult().getFieldErrors().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        FieldError::getField,
+                                        fieldError -> {
+                                            String defaultMessage = fieldError.getDefaultMessage();
+                                            return defaultMessage != null
+                                                    ? defaultMessage
+                                                    : "No error message available";
+                                        }));
+
+        return ResponseEntity.badRequest()
+                .body(
+                        ApiResponse.<Map<String, String>>builder()
+                                .success(false)
+                                .path(request.getRequestURI())
+                                .data(errors)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .error("Invalid method arguments")
                                 .build());
     }
 

@@ -13,8 +13,9 @@ public class AuthenticationToken extends UsernamePasswordAuthenticationToken {
     String userId;
     UserEntity user;
 
-    public AuthenticationToken(String email, UserEntity user) {
-        super(email, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+    public AuthenticationToken(String userId, UserEntity user) {
+        super(userId, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
         this.user = user;
+        this.userId = userId;
     }
 }
