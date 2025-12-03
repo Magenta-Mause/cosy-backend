@@ -1,6 +1,7 @@
 package com.magentamause.cosybackend.controllers;
 
 
+import com.magentamause.cosybackend.DTOs.UserEntityDTO;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,12 @@ public class UserEntityController {
     private final UserEntityService userEntityService;
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> getAllUserEntities() {
+    public ResponseEntity<List<UserEntityDTO>> getAllUserEntities() {
         return ResponseEntity.ok(userEntityService.getAllUsers());
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<UserEntity> getUserEntity(@PathVariable String uuid) {
+    public ResponseEntity<UserEntityDTO> getUserEntity(@PathVariable String uuid) {
         return ResponseEntity.ok(userEntityService.getUserByUuid(uuid));
     }
 

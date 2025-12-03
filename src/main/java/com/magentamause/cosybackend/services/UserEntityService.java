@@ -1,5 +1,6 @@
 package com.magentamause.cosybackend.services;
 
+import com.magentamause.cosybackend.DTOs.UserEntityDTO;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -17,15 +19,20 @@ public class UserEntityService {
 
     private final UserEntityRepository userEntityRepository;
 
-    public List<UserEntity> getAllUsers() {
-        return userEntityRepository.findAll();
+    public List<UserEntityDTO> getAllUsers() {
+        List<UserEntity> users  = userEntityRepository.findAll();
+
+        return users.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public UserEntity getUserByUuid(String uuid) {
-        return userEntityRepository.findById(uuid).orElseThrow(
+    public UserEntityDTO getUserByUuid(String uuid) {
+        UserEntity user = userEntityRepository.findById(uuid).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "User with uuid " + uuid + " not found")
         );
+        return convertToDTO(user);
     }
 
     public void saveUserEntity(UserEntity userEntity) {
@@ -40,5 +47,12 @@ public class UserEntityService {
                 )
         );
         userEntityRepository.delete(user);
+    }
+
+    private UserEntityDTO convertToDTO(UserEntity user) {
+        UserEntityDTO dto = new UserEntityDTO();
+        dto.setUsername(user.getUsername());
+        dto.setRole(user.getRole());
+        return dto;
     }
 }
