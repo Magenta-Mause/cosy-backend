@@ -1,14 +1,11 @@
 package com.magentamause.cosybackend.controllers;
 
-
 import com.magentamause.cosybackend.DTOs.UserEntityDTO;
-import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.services.UserEntityService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

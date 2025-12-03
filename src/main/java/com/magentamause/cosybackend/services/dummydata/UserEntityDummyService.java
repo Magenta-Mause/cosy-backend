@@ -1,8 +1,8 @@
 package com.magentamause.cosybackend.services.dummydata;
 
+import com.magentamause.cosybackend.entities.DummyInstantiatedProperties;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.repositories.DummyInstantiatedPropertiesRepository;
-import com.magentamause.cosybackend.entities.DummyInstantiatedProperties;
 import com.magentamause.cosybackend.services.UserEntityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,19 +27,18 @@ public class UserEntityDummyService {
             return;
         }
 
-        UserEntity adminUser = UserEntity.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .defaultPasswordReset(false)
-                .role(UserEntity.Role.OWNER)
-                .build();
+        UserEntity adminUser =
+                UserEntity.builder()
+                        .username("admin")
+                        .password(passwordEncoder.encode("admin"))
+                        .defaultPasswordReset(false)
+                        .role(UserEntity.Role.OWNER)
+                        .build();
 
         userEntityService.saveUserEntity(adminUser);
 
         dummyInstantiatedPropertiesRepository.save(
-                DummyInstantiatedProperties.builder()
-                        .key("admin-user-entity")
-                        .build());
+                DummyInstantiatedProperties.builder().key("admin-user-entity").build());
 
         log.info("Admin user entity initialized");
     }
