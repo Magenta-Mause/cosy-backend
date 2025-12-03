@@ -1,17 +1,34 @@
 package com.magentamause.cosybackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
+@Entity
 @AllArgsConstructor
-@Entity(name = "user_entity")
+@NoArgsConstructor
+@Builder
 public class UserEntity {
-    @Id private String uuid;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String uuid;
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private boolean defaultPasswordReset;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public enum Role {
+        OWNER,
+        QUOTA_USER
+    }
 }
