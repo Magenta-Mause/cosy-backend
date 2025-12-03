@@ -32,8 +32,8 @@ public class UserEntityService {
                                         "User with uuid " + uuid + " not found"));
     }
 
-    public void saveUserEntity(UserEntity userEntity) {
-        userEntityRepository.save(userEntity);
+    public UserEntity saveUserEntity(UserEntity userEntity) {
+        return userEntityRepository.save(userEntity);
     }
 
     public void deleteUserByUuid(String uuid) {
