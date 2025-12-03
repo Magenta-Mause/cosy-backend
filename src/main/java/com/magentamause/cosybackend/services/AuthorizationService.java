@@ -26,15 +26,22 @@ public class AuthorizationService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
-        if (user == null || !passwordEncoder.matches(plainPassword, user.getPassword())) {
+        if (!passwordEncoder.matches(plainPassword, user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
-        return generateIdentityToken(user.getUuid());
+        return generateRefreshToken(user.getUuid());
     }
 
     public String fetchIdentityTokenFromRefreshToken(String refreshToken) {
-        Claims claims =
-                jwtUtils.getTokenContentBody(refreshToken, JwtTokenBody.TokenType.REFRESH_TOKEN);
+        Claims claims;
+        try {
+            claims =
+                    jwtUtils.getTokenContentBody(
+                            refreshToken, JwtTokenBody.TokenType.REFRESH_TOKEN);
+        } catch (SecurityException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Invalid or expired refresh token");
+        }
         return generateIdentityToken(claims.getSubject());
     }
 

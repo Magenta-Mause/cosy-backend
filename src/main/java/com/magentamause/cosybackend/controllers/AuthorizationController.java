@@ -44,7 +44,8 @@ public class AuthorizationController {
     }
 
     @GetMapping("/token")
-    public ResponseEntity<String> fetchToken(@CookieValue("refreshToken") String refreshToken) {
+    public ResponseEntity<String> fetchToken(
+            @CookieValue(value = "refreshToken") String refreshToken) {
         return ResponseEntity.ok(
                 authorizationService.fetchIdentityTokenFromRefreshToken(refreshToken));
     }

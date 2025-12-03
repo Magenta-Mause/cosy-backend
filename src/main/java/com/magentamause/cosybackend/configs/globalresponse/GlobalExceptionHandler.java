@@ -1,10 +1,8 @@
 package com.magentamause.cosybackend.configs.globalresponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -83,7 +82,6 @@ public class GlobalExceptionHandler {
                                 .build());
     }
 
-    @SneakyThrows
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -97,7 +95,8 @@ public class GlobalExceptionHandler {
                                             return defaultMessage != null
                                                     ? defaultMessage
                                                     : "No error message available";
-                                        }));
+                                        },
+                                        (existing, replacement) -> existing + "; " + replacement));
 
         return ResponseEntity.badRequest()
                 .body(
@@ -107,6 +106,20 @@ public class GlobalExceptionHandler {
                                 .data(errors)
                                 .statusCode(HttpStatus.BAD_REQUEST.value())
                                 .error("Invalid method arguments")
+                                .build());
+    }
+
+    @ExceptionHandler(MissingRequestCookieException.class)
+    public ResponseEntity<ApiResponse<?>> handleMissingRequestCookie(
+            MissingRequestCookieException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        ApiResponse.builder()
+                                .path(request.getRequestURI())
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .success(false)
+                                .data("Cookie: " + ex.getCookieName() + " is missing")
+                                .error("Required cookie is missing.")
                                 .build());
     }
 
