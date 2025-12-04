@@ -1,6 +1,6 @@
 package com.magentamause.cosybackend.controllers;
 
-import com.magentamause.cosybackend.DTOs.UserEntityDTO;
+import com.magentamause.cosybackend.DTOs.UserEntityDto;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.services.UserEntityService;
 import java.util.List;
@@ -17,15 +17,15 @@ public class UserEntityController {
     private final UserEntityService userEntityService;
 
     @GetMapping
-    public ResponseEntity<List<UserEntityDTO>> getAllUserEntities() {
+    public ResponseEntity<List<UserEntityDto>> getAllUserEntities() {
         List<UserEntity> users = userEntityService.getAllUsers();
-        List<UserEntityDTO> userDTOs =
+        List<UserEntityDto> userDTOs =
                 users.stream().map(userEntityService::convertToDTO).collect(Collectors.toList());
         return ResponseEntity.ok(userDTOs);
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<UserEntityDTO> getUserEntity(@PathVariable String uuid) {
+    public ResponseEntity<UserEntityDto> getUserEntity(@PathVariable String uuid) {
         UserEntity user = userEntityService.getUserByUuid(uuid);
         return ResponseEntity.ok(userEntityService.convertToDTO(user));
     }

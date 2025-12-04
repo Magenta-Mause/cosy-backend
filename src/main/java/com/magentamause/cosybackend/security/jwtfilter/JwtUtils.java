@@ -1,9 +1,10 @@
-package com.magentamause.cosybackend.security;
+package com.magentamause.cosybackend.security.jwtfilter;
 
 import com.magentamause.cosybackend.security.config.JwtProperties;
 import io.jsonwebtoken.*;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,22 @@ public class JwtUtils {
     private final JwtProperties jwtProperties;
     private final Key signingKey;
 
+    public long getTokenValidityDuration(JwtTokenBody.TokenType tokenType) {
+        return tokenType.equals(JwtTokenBody.TokenType.IDENTITY_TOKEN)
+                ? jwtProperties.identityTokenExpirationTime()
+                : jwtProperties.refreshTokenExpirationTime();
+    }
+
     public String generateIdentityToken(Map<String, Object> claims, String username) {
-        return createToken(claims, username, jwtProperties.identityTokenExpirationTime());
+        Map<String, Object> map = new HashMap<>(claims);
+        map.put("tokenType", JwtTokenBody.TokenType.IDENTITY_TOKEN);
+        return createToken(map, username, jwtProperties.identityTokenExpirationTime());
     }
 
     public String generateRefreshToken(Map<String, Object> claims, String username) {
-        return createToken(claims, username, jwtProperties.refreshTokenExpirationTime());
+        Map<String, Object> map = new HashMap<>(claims);
+        map.put("tokenType", JwtTokenBody.TokenType.REFRESH_TOKEN);
+        return createToken(map, username, jwtProperties.refreshTokenExpirationTime());
     }
 
     private String createToken(Map<String, Object> claims, String subject, long expirationTime) {
@@ -37,7 +48,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Map<String, Object> getTokenContentBody(String token, JwtTokenBody.TokenType tokenType)
+    public Claims getTokenContentBody(String token, JwtTokenBody.TokenType tokenType)
             throws SecurityException {
         try {
             Claims claims = jwtParser.parseSignedClaims(token).getPayload();
@@ -55,7 +66,6 @@ public class JwtUtils {
             }
 
             return claims;
-
         } catch (ExpiredJwtException e) {
             log.error("Token expired: {}", e.getMessage());
             throw new SecurityException("Token expired");

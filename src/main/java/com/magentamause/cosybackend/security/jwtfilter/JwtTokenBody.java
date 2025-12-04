@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.security;
+package com.magentamause.cosybackend.security.jwtfilter;
 
 import com.magentamause.cosybackend.entities.UserEntity;
 import java.util.Collection;

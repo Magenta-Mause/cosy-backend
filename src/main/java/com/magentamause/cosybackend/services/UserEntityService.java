@@ -1,6 +1,6 @@
 package com.magentamause.cosybackend.services;
 
-import com.magentamause.cosybackend.DTOs.UserEntityDTO;
+import com.magentamause.cosybackend.DTOs.UserEntityDto;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.repositories.UserEntityRepository;
 import java.util.List;
@@ -32,6 +32,16 @@ public class UserEntityService {
                                         "User with uuid " + uuid + " not found"));
     }
 
+    public UserEntity getUserByUsername(String username) {
+        return userEntityRepository
+                .findByUsername(username)
+                .orElseThrow(
+                        () ->
+                                new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND,
+                                        "User with username " + username + " not found"));
+    }
+
     public void saveUserEntity(UserEntity userEntity) {
         userEntityRepository.save(userEntity);
     }
@@ -48,7 +58,7 @@ public class UserEntityService {
         userEntityRepository.delete(user);
     }
 
-    public UserEntityDTO convertToDTO(UserEntity user) {
-        return UserEntityDTO.builder().username(user.getUsername()).role(user.getRole()).build();
+    public UserEntityDto convertToDTO(UserEntity user) {
+        return UserEntityDto.builder().username(user.getUsername()).role(user.getRole()).build();
     }
 }

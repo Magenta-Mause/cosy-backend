@@ -1,8 +1,8 @@
 package com.magentamause.cosybackend.services;
 
 import com.magentamause.cosybackend.entities.UserEntity;
-import com.magentamause.cosybackend.security.JwtTokenBody;
-import com.magentamause.cosybackend.security.JwtUtils;
+import com.magentamause.cosybackend.security.jwtfilter.JwtTokenBody;
+import com.magentamause.cosybackend.security.jwtfilter.JwtUtils;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

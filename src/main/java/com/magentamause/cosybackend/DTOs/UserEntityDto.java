@@ -8,8 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UserEntityDTO {
-
+public class UserEntityDto {
     private String username;
     private UserEntity.Role role;
 }
