@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers("/auth/**")
+                                        .requestMatchers("/auth/**", "/v3/api-docs/**")
                                         .permitAll()
                                         .requestMatchers("/**")
                                         .authenticated())
