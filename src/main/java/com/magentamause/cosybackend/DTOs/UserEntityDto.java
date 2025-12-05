@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserEntityDto {
-    private String username;
-    private UserEntity.Role role;
+	private String uuid;
+	private String username;
+	private UserEntity.Role role;
 }

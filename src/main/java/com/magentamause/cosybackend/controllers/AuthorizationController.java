@@ -24,7 +24,7 @@ public class AuthorizationController {
     private String basePath;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginDto loginDto) {
         String refreshToken =
                 authorizationService.loginUser(loginDto.getUsername(), loginDto.getPassword());
         ResponseCookie responseCookie =
