@@ -2,10 +2,12 @@ package com.magentamause.cosybackend.controllers;
 
 import com.magentamause.cosybackend.DTOs.actiondtos.UserCreationDto;
 import com.magentamause.cosybackend.DTOs.actiondtos.UserInviteCreationDto;
+import com.magentamause.cosybackend.DTOs.entitydtos.UserEntityDto;
 import com.magentamause.cosybackend.DTOs.entitydtos.UserInviteDto;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.entities.UserInviteEntity;
 import com.magentamause.cosybackend.services.SecurityContextService;
+import com.magentamause.cosybackend.services.UserEntityService;
 import com.magentamause.cosybackend.services.UserInviteService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class UserInviteController {
 
     private final UserInviteService userInviteService;
     private final SecurityContextService securityContextService;
+    private final UserEntityService userEntityService;
 
     @GetMapping
     public ResponseEntity<List<UserInviteDto>> getAllUserInvites() {
@@ -52,10 +55,12 @@ public class UserInviteController {
     }
 
     @PostMapping("/use/{secretKey}")
-    public ResponseEntity<UserEntity> useInvite(
-            @PathVariable("secretKey") String secretToken, @RequestBody UserCreationDto user) {
-        return ResponseEntity.ok(
-                userInviteService.useInvite(secretToken, user.getUsername(), user.getPassword()));
+    public ResponseEntity<UserEntityDto> useInvite(
+            @PathVariable("secretKey") String secretToken,
+            @Valid @RequestBody UserCreationDto user) {
+        UserEntity createdUser =
+                userInviteService.useInvite(secretToken, user.getUsername(), user.getPassword());
+        return ResponseEntity.ok(userEntityService.convertToDTO(createdUser));
     }
 
     @DeleteMapping("/{uuid}")

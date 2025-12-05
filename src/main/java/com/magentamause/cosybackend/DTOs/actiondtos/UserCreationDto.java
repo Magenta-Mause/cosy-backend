@@ -1,9 +1,10 @@
 package com.magentamause.cosybackend.DTOs.actiondtos;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class UserCreationDto {
-    private String username;
-    private String password;
+    @NotBlank private String username;
+    @NotBlank private String password;
 }

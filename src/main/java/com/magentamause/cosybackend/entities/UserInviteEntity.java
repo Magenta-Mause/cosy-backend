@@ -39,7 +39,7 @@ public class UserInviteEntity {
         return UserInviteDto.builder()
                 .uuid(this.getUuid())
                 .username(this.getUsername())
-                .invitedBy(this.getInvitedBy().getUuid())
+                .invitedBy(this.getInvitedBy() != null ? this.getInvitedBy().getUuid() : null)
                 .secretKey(this.getSecretKey())
                 .createdAt(this.getCreatedAt())
                 .build();
