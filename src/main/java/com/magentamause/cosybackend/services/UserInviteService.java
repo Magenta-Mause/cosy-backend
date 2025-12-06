@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
@@ -63,8 +64,10 @@ public class UserInviteService {
                                         HttpStatus.NOT_FOUND, "Invite not found"));
     }
 
+    @Transactional
     public UserEntity useInvite(String secretKey, String username, String password) {
-        UserInviteEntity invite = getInviteBySecretKey(secretKey);
+        UserInviteEntity invite = userInviteRepository.findBySecretKeyLocked(secretKey)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invite not found"));
         UserEntity.UserEntityBuilder userBuilder =
                 UserEntity.builder()
                         .role(UserEntity.Role.QUOTA_USER)
