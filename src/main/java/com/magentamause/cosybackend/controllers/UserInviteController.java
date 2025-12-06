@@ -37,14 +37,14 @@ public class UserInviteController {
 
     @GetMapping("/{secretKey}")
     public ResponseEntity<UserInviteDto> getUserInvite(
-            @PathVariable("secretKey") String secretToken) {
+            @PathVariable("secretKey") String secretKey) {
         return ResponseEntity.ok(
-                userInviteService.getInviteBySecretKey(secretToken).convertToDto());
+                userInviteService.getInviteBySecretKey(secretKey).convertToDto());
     }
 
     @PostMapping
     public ResponseEntity<UserInviteDto> createInvite(
-            @RequestBody UserInviteCreationDto userInviteCreationDto) {
+            @Valid @RequestBody UserInviteCreationDto userInviteCreationDto) {
         securityContextService.assertUserHasRole(UserEntity.Role.OWNER);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(

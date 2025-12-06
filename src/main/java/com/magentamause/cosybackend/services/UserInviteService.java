@@ -29,6 +29,8 @@ public class UserInviteService {
     }
 
     public void revokeInvite(String inviteUuid) {
+        // Check existence first to provide clear feedback
+        getInviteByUuid(inviteUuid); // throws 404 if not found
         userInviteRepository.deleteById(inviteUuid);
     }
 
@@ -61,7 +63,7 @@ public class UserInviteService {
                                         HttpStatus.NOT_FOUND, "Invite not found"));
     }
 
-    public UserEntity useInvite(String secretKey, String userName, String password) {
+    public UserEntity useInvite(String secretKey, String username, String password) {
         UserInviteEntity invite = getInviteBySecretKey(secretKey);
         UserEntity.UserEntityBuilder userBuilder =
                 UserEntity.builder()
@@ -69,13 +71,13 @@ public class UserInviteService {
                         .password(passwordEncoder.encode(password))
                         .defaultPasswordReset(true);
         if (Objects.isNull(invite.getUsername())) {
-            userBuilder.username(userName);
+            userBuilder.username(username);
         } else {
             userBuilder.username(invite.getUsername());
         }
         UserEntity user = userEntityService.saveUserEntity(userBuilder.build());
         userInviteRepository.delete(invite); // Delete the invite after use
-        log.info("Invite [{}] used for user {}", secretKey, user.getUsername());
+        log.info("Invite [{}] used for user {}", invite.getUuid(), user.getUsername());
         return user;
     }
 
