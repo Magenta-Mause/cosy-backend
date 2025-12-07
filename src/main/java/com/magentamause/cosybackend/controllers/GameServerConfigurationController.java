@@ -35,36 +35,38 @@ public class GameServerConfigurationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createGameServer(
+    public ResponseEntity<GameServerConfigurationEntity> createGameServer(
             @Valid @RequestBody GameServerCreationDto gameServerCreationDto) {
-        gameServerConfigurationService.saveGameServer(
-                GameServerConfigurationEntity.builder()
-                        .ownerId("test-user-id") // change this
-                        .gameUuid(gameServerCreationDto.getGameUuid())
-                        .serverName(gameServerCreationDto.getServerName())
-                        .dockerImageName(gameServerCreationDto.getDockerImageName())
-                        .dockerImageTag(gameServerCreationDto.getDockerImageTag())
-                        .dockerExecutionCommand(
-                                List.of(
-                                        gameServerCreationDto
-                                                .getExecutionCommand()
-                                                .split(" ")))
-                        .environmentVariables(
-                                gameServerCreationDto.getEnvironmentVariables())
-                        .volumeMounts(gameServerCreationDto.getVolumeMounts())
-                        .portMappings(
-                                List.of(
-                                        PortMapping.builder()
-                                                .instancePort(
-                                                        (int)
-                                                                gameServerCreationDto
-                                                                        .getPort())
-                                                .containerPort(
-                                                        (int)
-                                                                gameServerCreationDto
-                                                                        .getPort())
-                                                .build()))
-                        .build());
-        return ResponseEntity.status(201).build();
+
+        GameServerConfigurationEntity createdGameServer = GameServerConfigurationEntity.builder()
+                .ownerId("test-user-id") // change this
+                .gameUuid(gameServerCreationDto.getGameUuid())
+                .serverName(gameServerCreationDto.getServerName())
+                .dockerImageName(gameServerCreationDto.getDockerImageName())
+                .dockerImageTag(gameServerCreationDto.getDockerImageTag())
+                .dockerExecutionCommand(
+                        List.of(
+                                gameServerCreationDto
+                                        .getExecutionCommand()
+                                        .split(" ")))
+                .environmentVariables(
+                        gameServerCreationDto.getEnvironmentVariables())
+                .volumeMounts(gameServerCreationDto.getVolumeMounts())
+                .portMappings(
+                        List.of(
+                                PortMapping.builder()
+                                        .instancePort(
+                                                (int)
+                                                        gameServerCreationDto
+                                                                .getPort())
+                                        .containerPort(
+                                                (int)
+                                                        gameServerCreationDto
+                                                                .getPort())
+                                        .build()))
+                .build();
+
+        gameServerConfigurationService.saveGameServer(createdGameServer);
+        return ResponseEntity.status(201).body(createdGameServer);
     }
 }
