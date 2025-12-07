@@ -8,19 +8,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
 @Pattern(
-		regexp = "^[a-zA-Z0-9_-]*$",
-		message = "Username can only contain letters, numbers, underscores and hyphens"
-)
+        regexp = "^[a-zA-Z0-9_-]*$",
+        message = "Username can only contain letters, numbers, underscores and hyphens")
 public @interface ValidUsername {
 
-	String message() default "Invalid username";
+    String message() default "Invalid username";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<?>[] payload() default {};
+    Class<?>[] payload() default {};
 }
