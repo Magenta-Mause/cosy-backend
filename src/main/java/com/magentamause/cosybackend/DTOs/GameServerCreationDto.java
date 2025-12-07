@@ -11,13 +11,13 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GameServerCreationDto {
-    @NotBlank String gameUuid;
-    @NotBlank String serverName;
-    @NotBlank String template;
-    @NotBlank String dockerImageName;
-    @NotBlank String dockerImageTag;
-    Number port;
-    @NotBlank String executionCommand;
-    List<EnvironmentVariableConfiguration> environmentVariables;
-    List<VolumeMountConfiguration> volumeMounts;
+    @NotBlank private String gameUuid;
+    @NotBlank private String serverName;
+    @NotBlank private String template;
+    @NotBlank private String dockerImageName;
+    @NotBlank private String dockerImageTag;
+    private Number port;
+    @NotBlank private String executionCommand;
+    private List<EnvironmentVariableConfiguration> environmentVariables;
+    private List<VolumeMountConfiguration> volumeMounts;
 }
