@@ -51,17 +51,17 @@ public class AuthorizationController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public ResponseEntity<Void> logout() {
         ResponseCookie deleteCookie =
                 ResponseCookie.from("refreshToken", "")
                         .httpOnly(true)
                         .secure(false)
-                        .path("/")
+                        .path(basePath + "/auth/token")
                         .maxAge(0)
                         .build();
 
-        return ResponseEntity.ok()
+        return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
-                .body("Success");
+                .build();
     }
 }
