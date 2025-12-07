@@ -1,7 +1,10 @@
 package com.magentamause.cosybackend.controllers;
 
+import com.magentamause.cosybackend.DTOs.GameServerCreationDto;
 import com.magentamause.cosybackend.entities.GameServerConfigurationEntity;
+import com.magentamause.cosybackend.entities.utility.PortMapping;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +32,39 @@ public class GameServerConfigurationController {
     public ResponseEntity<Void> deleteGameServerById(@PathVariable String uuid) {
         gameServerConfigurationService.deleteGameServerById(uuid);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createGameServer(
+            @Valid @RequestBody GameServerCreationDto gameServerCreationDto) {
+        gameServerConfigurationService.saveGameServer(
+                GameServerConfigurationEntity.builder()
+                        .ownerId("test-user-id") // change this
+                        .gameUuid(gameServerCreationDto.getGameUuid())
+                        .serverName(gameServerCreationDto.getServerName())
+                        .dockerImageName(gameServerCreationDto.getDockerImageName())
+                        .dockerImageTag(gameServerCreationDto.getDockerImageTag())
+                        .dockerExecutionCommand(
+                                List.of(
+                                        gameServerCreationDto
+                                                .getExecutionCommand()
+                                                .split(" ")))
+                        .environmentVariables(
+                                gameServerCreationDto.getEnvironmentVariables())
+                        .volumeMounts(gameServerCreationDto.getVolumeMounts())
+                        .portMappings(
+                                List.of(
+                                        PortMapping.builder()
+                                                .instancePort(
+                                                        (int)
+                                                                gameServerCreationDto
+                                                                        .getPort())
+                                                .containerPort(
+                                                        (int)
+                                                                gameServerCreationDto
+                                                                        .getPort())
+                                                .build()))
+                        .build());
+        return ResponseEntity.status(201).build();
     }
 }
