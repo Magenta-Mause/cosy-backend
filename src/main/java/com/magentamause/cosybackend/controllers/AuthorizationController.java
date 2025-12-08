@@ -49,4 +49,20 @@ public class AuthorizationController {
         return ResponseEntity.ok(
                 authorizationService.fetchIdentityTokenFromRefreshToken(refreshToken));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        ResponseCookie deleteCookie =
+                ResponseCookie.from("refreshToken", "")
+                        .httpOnly(true)
+                        .secure(false)
+                        .path(basePath + "/auth/token")
+                        .maxAge(0)
+                        .sameSite("Strict")
+                        .build();
+
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .build();
+    }
 }
