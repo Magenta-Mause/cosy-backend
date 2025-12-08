@@ -6,8 +6,11 @@ import com.magentamause.cosybackend.entities.utility.PortMapping;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,10 +40,12 @@ public class GameServerConfigurationController {
     @PostMapping
     public ResponseEntity<GameServerConfigurationEntity> createGameServer(
             @Valid @RequestBody GameServerCreationDto gameServerCreationDto) {
+        String userId =
+                (String) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
         GameServerConfigurationEntity createdGameServer =
                 GameServerConfigurationEntity.builder()
-                        .ownerId("test-user-id") // change this
+                        .ownerId(userId)
                         .gameUuid(gameServerCreationDto.getGameUuid())
                         .serverName(gameServerCreationDto.getServerName())
                         .template(gameServerCreationDto.getTemplate())
