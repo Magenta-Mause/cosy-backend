@@ -56,19 +56,7 @@ public class GameServerConfigurationController {
                         .dockerExecutionCommand(gameServerCreationDto.getExecutionCommand())
                         .environmentVariables(gameServerCreationDto.getEnvironmentVariables())
                         .volumeMounts(gameServerCreationDto.getVolumeMounts())
-                        .portMappings(
-                                gameServerCreationDto.getPortMappings().stream()
-                                        .map(
-                                                portMapping ->
-                                                        PortMapping.builder()
-                                                                .instancePort(
-                                                                        portMapping
-                                                                                .getInstancePort())
-                                                                .containerPort(
-                                                                        portMapping
-                                                                                .getContainerPort())
-                                                                .build())
-                                        .toList())
+                        .portMappings(gameServerCreationDto.getPortMappings())
                         .build();
 
         gameServerConfigurationService.saveGameServer(createdGameServer);
