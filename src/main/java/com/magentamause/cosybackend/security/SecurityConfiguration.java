@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,9 +32,12 @@ public class SecurityConfiguration {
                                 authorizeRequests
                                         .requestMatchers(
                                                 "/auth/**",
+                                                "/user-invites/use/*",
                                                 "/v3/api-docs/**",
                                                 "/actuator/**",
                                                 "/swagger-ui/**")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/user-invites/*")
                                         .permitAll()
                                         .requestMatchers("/**")
                                         .authenticated())

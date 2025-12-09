@@ -1,6 +1,6 @@
 package com.magentamause.cosybackend.controllers;
 
-import com.magentamause.cosybackend.DTOs.LoginDto;
+import com.magentamause.cosybackend.DTOs.actiondtos.LoginDto;
 import com.magentamause.cosybackend.security.jwtfilter.JwtTokenBody;
 import com.magentamause.cosybackend.security.jwtfilter.JwtUtils;
 import com.magentamause.cosybackend.services.AuthorizationService;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthorizationController {
+    private static final int MILLISECONDS_IN_SECOND = 1000;
+
     private final AuthorizationService authorizationService;
     private final JwtUtils jwtUtils;
 
@@ -34,7 +36,7 @@ public class AuthorizationController {
                         .maxAge(
                                 jwtUtils.getTokenValidityDuration(
                                                 JwtTokenBody.TokenType.REFRESH_TOKEN)
-                                        / 1000)
+                                        / MILLISECONDS_IN_SECOND)
                         .path(basePath + "/auth/token")
                         .sameSite("Strict")
                         .build();
