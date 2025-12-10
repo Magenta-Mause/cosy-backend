@@ -1,9 +1,9 @@
 package com.magentamause.cosybackend.controllers;
 
-import com.magentamause.cosybackend.DTOs.actiondtos.UserCreationDto;
-import com.magentamause.cosybackend.DTOs.actiondtos.UserInviteCreationDto;
-import com.magentamause.cosybackend.DTOs.entitydtos.UserEntityDto;
-import com.magentamause.cosybackend.DTOs.entitydtos.UserInviteDto;
+import com.magentamause.cosybackend.dtos.actiondtos.UserCreationDto;
+import com.magentamause.cosybackend.dtos.actiondtos.UserInviteCreationDto;
+import com.magentamause.cosybackend.dtos.entitydtos.UserEntityDto;
+import com.magentamause.cosybackend.dtos.entitydtos.UserInviteDto;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.entities.UserInviteEntity;
 import com.magentamause.cosybackend.services.SecurityContextService;

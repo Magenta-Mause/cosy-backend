@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.DTOs.actiondtos;
+package com.magentamause.cosybackend.dtos.actiondtos;
 
 import com.magentamause.cosybackend.annotations.ValidUsername;
 import jakarta.validation.constraints.NotBlank;

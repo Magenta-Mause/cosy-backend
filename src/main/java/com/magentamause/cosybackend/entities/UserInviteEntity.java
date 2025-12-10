@@ -2,7 +2,7 @@ package com.magentamause.cosybackend.entities;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.magentamause.cosybackend.DTOs.entitydtos.UserInviteDto;
+import com.magentamause.cosybackend.dtos.entitydtos.UserInviteDto;
 import jakarta.persistence.*;
 import java.time.Instant;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.DTOs.entitydtos;
+package com.magentamause.cosybackend.dtos.entitydtos;
 
 import com.magentamause.cosybackend.entities.UserEntity;
 import lombok.Builder;

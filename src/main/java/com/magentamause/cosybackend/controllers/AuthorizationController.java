@@ -1,6 +1,6 @@
 package com.magentamause.cosybackend.controllers;
 
-import com.magentamause.cosybackend.DTOs.actiondtos.LoginDto;
+import com.magentamause.cosybackend.dtos.actiondtos.LoginDto;
 import com.magentamause.cosybackend.security.jwtfilter.JwtTokenBody;
 import com.magentamause.cosybackend.security.jwtfilter.JwtUtils;
 import com.magentamause.cosybackend.services.AuthorizationService;

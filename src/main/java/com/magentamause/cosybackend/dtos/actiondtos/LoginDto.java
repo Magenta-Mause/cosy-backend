@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.DTOs.actiondtos;
+package com.magentamause.cosybackend.dtos.actiondtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

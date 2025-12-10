@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.DTOs.actiondtos;
+package com.magentamause.cosybackend.dtos.actiondtos;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
