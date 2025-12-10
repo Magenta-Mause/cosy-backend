@@ -1,4 +1,4 @@
-package com.magentamause.cosybackend.validation;
+package com.magentamause.cosybackend.annotations.uniqueElements;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

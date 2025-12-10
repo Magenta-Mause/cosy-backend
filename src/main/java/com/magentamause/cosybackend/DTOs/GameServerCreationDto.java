@@ -2,10 +2,10 @@ package com.magentamause.cosybackend.DTOs;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.magentamause.cosybackend.annotations.uniqueElements.UniqueElementsBy;
 import com.magentamause.cosybackend.entities.utility.EnvironmentVariableConfiguration;
 import com.magentamause.cosybackend.entities.utility.PortMapping;
 import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
-import com.magentamause.cosybackend.validation.UniqueElementsBy;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
