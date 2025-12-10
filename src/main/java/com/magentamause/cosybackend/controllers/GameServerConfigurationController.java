@@ -2,6 +2,7 @@ package com.magentamause.cosybackend.controllers;
 
 import com.magentamause.cosybackend.DTOs.actiondtos.GameServerCreationDto;
 import com.magentamause.cosybackend.entities.GameServerConfigurationEntity;
+import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
 import com.magentamause.cosybackend.services.AuthorizationService;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
 import jakarta.validation.Valid;
@@ -50,7 +51,16 @@ public class GameServerConfigurationController {
                         .dockerImageTag(gameServerCreationDto.getDockerImageTag())
                         .dockerExecutionCommand(gameServerCreationDto.getExecutionCommand())
                         .environmentVariables(gameServerCreationDto.getEnvironmentVariables())
-                        .volumeMounts(gameServerCreationDto.getVolumeMounts())
+                        .volumeMounts(
+                                gameServerCreationDto.getVolumeMounts().stream()
+                                        .map(
+                                                vmc ->
+                                                        VolumeMountConfiguration.builder()
+                                                                .hostPath(vmc.getHostPath())
+                                                                .containerPath(
+                                                                        vmc.getContainerPath())
+                                                                .build())
+                                        .toList())
                         .portMappings(gameServerCreationDto.getPortMappings())
                         .build();
 

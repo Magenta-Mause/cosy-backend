@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.magentamause.cosybackend.annotations.uniqueElements.UniqueElementsBy;
 import com.magentamause.cosybackend.entities.utility.EnvironmentVariableConfiguration;
 import com.magentamause.cosybackend.entities.utility.PortMapping;
-import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
@@ -36,5 +35,5 @@ public class GameServerCreationDto {
     @UniqueElementsBy(
             fieldNames = {"hostPath", "containerPath"},
             message = "duplicate volume mounts")
-    private List<VolumeMountConfiguration> volumeMounts;
+    private List<VolumeMountConfigurationCreationDto> volumeMounts;
 }
