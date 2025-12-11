@@ -1,5 +1,6 @@
 package com.magentamause.cosybackend.entities;
 
+import com.magentamause.cosybackend.DTOs.entitydtos.UserEntityDto;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.*;
@@ -32,8 +33,19 @@ public class UserEntity {
     @OneToMany(mappedBy = "invitedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserInviteEntity> invites;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GameServerConfigurationEntity> gameServerConfigurationEntities;
+
     public enum Role {
         OWNER,
         QUOTA_USER
+    }
+
+    public UserEntityDto toDto() {
+        return UserEntityDto.builder()
+                .uuid(this.uuid)
+                .username(this.username)
+                .role(this.role)
+                .build();
     }
 }

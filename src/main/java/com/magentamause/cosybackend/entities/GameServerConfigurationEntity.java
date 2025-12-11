@@ -2,6 +2,7 @@ package com.magentamause.cosybackend.entities;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.magentamause.cosybackend.DTOs.entitydtos.GameServerDto;
 import com.magentamause.cosybackend.entities.utility.EnvironmentVariableConfiguration;
 import com.magentamause.cosybackend.entities.utility.PortMapping;
 import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
@@ -14,7 +15,6 @@ import lombok.*;
 @Setter
 @Entity
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -25,7 +25,7 @@ public class GameServerConfigurationEntity {
 
     private String serverName;
 
-    private String ownerId;
+    @ManyToOne private UserEntity owner;
 
     @Enumerated(EnumType.STRING)
     private GameServerStatus status;
@@ -70,5 +70,23 @@ public class GameServerConfigurationEntity {
         SHUTTING_DOWN,
         STOPPED,
         FAILED
+    }
+
+    public GameServerDto toDto() {
+        return GameServerDto.builder()
+                .uuid(this.getUuid())
+                .serverName(this.getServerName())
+                .owner(this.getOwner().toDto())
+                .status(this.getStatus())
+                .timestampLastStarted(this.getTimestampLastStarted())
+                .gameUuid(this.getGameUuid())
+                .dockerImageName(this.getDockerImageName())
+                .dockerImageTag(this.getDockerImageTag())
+                .template(this.getTemplate())
+                .dockerExecutionCommand(this.getDockerExecutionCommand())
+                .portMappings(this.getPortMappings())
+                .environmentVariables(this.getEnvironmentVariables())
+                .volumeMounts(this.getVolumeMounts())
+                .build();
     }
 }

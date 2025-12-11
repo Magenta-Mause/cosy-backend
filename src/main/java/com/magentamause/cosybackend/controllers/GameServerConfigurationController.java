@@ -1,7 +1,9 @@
 package com.magentamause.cosybackend.controllers;
 
 import com.magentamause.cosybackend.DTOs.actiondtos.GameServerCreationDto;
+import com.magentamause.cosybackend.DTOs.entitydtos.GameServerDto;
 import com.magentamause.cosybackend.entities.GameServerConfigurationEntity;
+import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
 import com.magentamause.cosybackend.services.SecurityContextService;
@@ -20,14 +22,19 @@ public class GameServerConfigurationController {
     private final SecurityContextService securityContextService;
 
     @GetMapping
-    public ResponseEntity<List<GameServerConfigurationEntity>> getAllGameServers() {
-        return ResponseEntity.ok(gameServerConfigurationService.getAllGameServers());
+    public ResponseEntity<List<GameServerDto>> getAllGameServers() {
+        List<GameServerDto> dtos =
+                gameServerConfigurationService.getAllGameServers().stream()
+                        .map(GameServerConfigurationEntity::toDto)
+                        .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<GameServerConfigurationEntity> getGameServerById(
-            @PathVariable String uuid) {
-        return ResponseEntity.ok(gameServerConfigurationService.getGameServerById(uuid));
+    public ResponseEntity<GameServerDto> getGameServerById(@PathVariable String uuid) {
+        GameServerConfigurationEntity entity =
+                gameServerConfigurationService.getGameServerById(uuid);
+        return ResponseEntity.ok(entity.toDto());
     }
 
     @DeleteMapping("/{uuid}")
@@ -37,13 +44,13 @@ public class GameServerConfigurationController {
     }
 
     @PostMapping
-    public ResponseEntity<GameServerConfigurationEntity> createGameServer(
+    public ResponseEntity<GameServerDto> createGameServer(
             @Valid @RequestBody GameServerCreationDto gameServerCreationDto) {
-        String userId = securityContextService.getUserId();
+        UserEntity user = securityContextService.getUser();
 
         GameServerConfigurationEntity createdGameServer =
                 GameServerConfigurationEntity.builder()
-                        .ownerId(userId)
+                        .owner(user)
                         .gameUuid(gameServerCreationDto.getGameUuid())
                         .serverName(gameServerCreationDto.getServerName())
                         .template(gameServerCreationDto.getTemplate())
@@ -68,6 +75,6 @@ public class GameServerConfigurationController {
                         .build();
 
         gameServerConfigurationService.saveGameServer(createdGameServer);
-        return ResponseEntity.status(201).body(createdGameServer);
+        return ResponseEntity.status(201).body(createdGameServer.toDto());
     }
 }
