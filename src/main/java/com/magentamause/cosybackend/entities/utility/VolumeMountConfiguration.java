@@ -1,5 +1,6 @@
 package com.magentamause.cosybackend.entities.utility;
 
+import com.magentamause.cosybackend.DTOs.actiondtos.VolumeMountConfigurationCreationDto;
 import jakarta.persistence.*;
 import lombok.*;
 import tools.jackson.databind.PropertyNamingStrategies;
@@ -22,4 +23,11 @@ public class VolumeMountConfiguration {
 
     @Column(nullable = false)
     private String containerPath;
+
+    public static VolumeMountConfiguration fromDto(VolumeMountConfigurationCreationDto dto) {
+        return VolumeMountConfiguration.builder()
+                .hostPath(dto.getHostPath())
+                .containerPath(dto.getContainerPath())
+                .build();
+    }
 }

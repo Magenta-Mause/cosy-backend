@@ -60,13 +60,7 @@ public class GameServerConfigurationController {
                         .environmentVariables(gameServerCreationDto.getEnvironmentVariables())
                         .volumeMounts(
                                 gameServerCreationDto.getVolumeMounts().stream()
-                                        .map(
-                                                vmc ->
-                                                        VolumeMountConfiguration.builder()
-                                                                .hostPath(vmc.getHostPath())
-                                                                .containerPath(
-                                                                        vmc.getContainerPath())
-                                                                .build())
+                                        .map(VolumeMountConfiguration::fromDto)
                                         .toList())
                         .portMappings(gameServerCreationDto.getPortMappings())
                         .build();
