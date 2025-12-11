@@ -59,18 +59,15 @@ public class GameServerConfigurationController {
                         .dockerExecutionCommand(gameServerCreationDto.getExecutionCommand())
                         .environmentVariables(gameServerCreationDto.getEnvironmentVariables())
                         .volumeMounts(
-                                gameServerCreationDto.getVolumeMounts() != null
-                                        ? gameServerCreationDto.getVolumeMounts().stream()
-                                                .map(
-                                                        vmc ->
-                                                                VolumeMountConfiguration.builder()
-                                                                        .hostPath(vmc.getHostPath())
-                                                                        .containerPath(
-                                                                                vmc
-                                                                                        .getContainerPath())
-                                                                        .build())
-                                                .toList()
-                                        : null)
+                                gameServerCreationDto.getVolumeMounts().stream()
+                                        .map(
+                                                vmc ->
+                                                        VolumeMountConfiguration.builder()
+                                                                .hostPath(vmc.getHostPath())
+                                                                .containerPath(
+                                                                        vmc.getContainerPath())
+                                                                .build())
+                                        .toList())
                         .portMappings(gameServerCreationDto.getPortMappings())
                         .build();
 
