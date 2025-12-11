@@ -27,9 +27,9 @@ public class PortMapping {
     @Max(65535)
     private int containerPort;
 
-
     @Enumerated(EnumType.STRING)
-    @NonNull private PortProtocol protocol;
+    @NonNull
+    private PortProtocol protocol;
 
     public enum PortProtocol {
         TCP,
