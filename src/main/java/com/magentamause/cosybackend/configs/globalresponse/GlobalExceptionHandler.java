@@ -1,5 +1,6 @@
 package com.magentamause.cosybackend.configs.globalresponse;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -7,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestCookieException;
@@ -89,7 +89,9 @@ public class GlobalExceptionHandler {
                 ex.getBindingResult().getFieldErrors().stream()
                         .collect(
                                 Collectors.toMap(
-                                        FieldError::getField,
+                                        fieldError ->
+                                                PropertyNamingStrategies.SnakeCaseStrategy.INSTANCE
+                                                        .translate(fieldError.getField()),
                                         fieldError -> {
                                             String defaultMessage = fieldError.getDefaultMessage();
                                             return defaultMessage != null
