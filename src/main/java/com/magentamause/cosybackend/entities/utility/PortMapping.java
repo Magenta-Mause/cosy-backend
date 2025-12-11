@@ -1,11 +1,11 @@
 package com.magentamause.cosybackend.entities.utility;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Getter

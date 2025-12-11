@@ -3,8 +3,8 @@ package com.magentamause.cosybackend.controllers;
 import com.magentamause.cosybackend.DTOs.actiondtos.GameServerCreationDto;
 import com.magentamause.cosybackend.entities.GameServerConfigurationEntity;
 import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
-import com.magentamause.cosybackend.services.AuthorizationService;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
+import com.magentamause.cosybackend.services.SecurityContextService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class GameServerConfigurationController {
 
     private final GameServerConfigurationService gameServerConfigurationService;
-    private final AuthorizationService authorizationService;
+    private final SecurityContextService securityContextService;
 
     @GetMapping
     public ResponseEntity<List<GameServerConfigurationEntity>> getAllGameServers() {
@@ -39,7 +39,7 @@ public class GameServerConfigurationController {
     @PostMapping
     public ResponseEntity<GameServerConfigurationEntity> createGameServer(
             @Valid @RequestBody GameServerCreationDto gameServerCreationDto) {
-        String userId = authorizationService.getCurrentUserId();
+        String userId = securityContextService.getUserId();
 
         GameServerConfigurationEntity createdGameServer =
                 GameServerConfigurationEntity.builder()
