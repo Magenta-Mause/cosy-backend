@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -25,6 +27,8 @@ public class PortMapping {
     @Max(65535)
     private int containerPort;
 
+
+    @Enumerated(EnumType.STRING)
     @NonNull private PortProtocol protocol;
 
     public enum PortProtocol {
