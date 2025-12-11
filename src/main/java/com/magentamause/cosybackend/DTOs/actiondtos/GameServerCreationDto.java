@@ -1,17 +1,22 @@
 package com.magentamause.cosybackend.DTOs.actiondtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.magentamause.cosybackend.annotations.uniqueElements.UniqueElementsBy;
-import com.magentamause.cosybackend.entities.utility.EnvironmentVariableConfiguration;
-import com.magentamause.cosybackend.entities.utility.PortMapping;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.Data;
 
+import com.magentamause.cosybackend.annotations.uniqueElements.UniqueElementsBy;
+import com.magentamause.cosybackend.entities.utility.EnvironmentVariableConfiguration;
+import com.magentamause.cosybackend.entities.utility.PortMapping;
+import jakarta.validation.constraints.NotBlank;
+
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GameServerCreationDto {
     @NotBlank private String gameUuid;
     @NotBlank private String serverName;
@@ -23,17 +28,27 @@ public class GameServerCreationDto {
             fieldNames = {"instancePort", "containerPort"},
             message = "duplicate port mapping")
     @NotNull
+    @NotEmpty
+    @Valid
     private List<PortMapping> portMappings;
 
-    @NotNull private List<String> executionCommand;
+    @NotNull
+    @NotEmpty
+    private List<@NotBlank String> executionCommand;
 
     @UniqueElementsBy(
             fieldNames = {"key", "value"},
             message = "duplicate environment variable")
+    @NotNull
+    @NotEmpty
+    @Valid
     private List<EnvironmentVariableConfiguration> environmentVariables;
 
     @UniqueElementsBy(
             fieldNames = {"hostPath", "containerPath"},
             message = "duplicate volume mounts")
+    @NotNull
+    @NotEmpty
+    @Valid
     private List<VolumeMountConfigurationCreationDto> volumeMounts;
 }
