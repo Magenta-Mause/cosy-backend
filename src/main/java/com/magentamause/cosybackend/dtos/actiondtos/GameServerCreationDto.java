@@ -27,7 +27,7 @@ public class GameServerCreationDto {
     @Valid
     private List<PortMapping> portMappings;
 
-    @NotNull @NotEmpty private List<@NotBlank String> executionCommand;
+    private List<@NotBlank String> executionCommand;
 
     @UniqueElementsBy(
             fieldNames = {"key", "value"},
