@@ -39,3 +39,26 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}:latest
 
+  update-deployment:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DEPLOYMENT_APP_ID }}
+          private-key: ${{ secrets.DEPLOYMENT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: "cosy-internal-deployment"
+
+      - name: Trigger deployment update
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
+            https://api.github.com/repos/${{ github.repository_owner }}/cosy-internal-deployment/dispatches \
+            -d '{"event_type":"update_image","client_payload":{"service":"backend","commit_sha":"${{ github.sha }}"}}'
+
