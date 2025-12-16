@@ -64,7 +64,10 @@ public class GameServerConfigurationController {
                                                 .map(VolumeMountConfiguration::fromDto)
                                                 .toList()
                                         : null)
-                        .portMappings(gameServerCreationDto.getPortMappings())
+                        .portMappings(
+                                gameServerCreationDto.getPortMappings() != null
+                                        ? gameServerCreationDto.getPortMappings()
+                                        : List.of())
                         .build();
 
         gameServerConfigurationService.saveGameServer(createdGameServer);

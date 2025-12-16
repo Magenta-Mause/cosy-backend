@@ -24,8 +24,6 @@ public class GameServerCreationDto {
     @UniqueElementsBy(
             fieldNames = {"instancePort", "containerPort"},
             message = "duplicate port mapping")
-    @NotNull
-    @NotEmpty
     @Valid
     private List<PortMapping> portMappings;
 
