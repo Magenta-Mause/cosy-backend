@@ -11,7 +11,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
-    uses: ./.github/workflows/lint.yml
+    uses: ./.github/workflows/check.yml
 
   build-and-push-image:
     needs: lint
