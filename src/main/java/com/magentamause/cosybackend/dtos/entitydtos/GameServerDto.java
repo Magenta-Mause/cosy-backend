@@ -36,7 +36,7 @@ public class GameServerDto {
 
     @NotBlank private String dockerImageTag;
 
-    @NotBlank private String template;
+    private String template;
 
     @NotNull @NotEmpty private List<String> dockerExecutionCommand;
 
