@@ -7,15 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    if: github.event_name == 'workflow_dispatch'
-    permissions:
-      contents: read
-    uses: ./.github/workflows/check.yml
-
   build-and-push-image:
-    needs: check
-    if: always() && (needs.check.result == 'success' || needs.check.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       contents: read
