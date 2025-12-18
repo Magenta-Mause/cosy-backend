@@ -53,15 +53,10 @@ public class FileStorageService {
         Path path = resolveAndValidatePath(rootPath, relativePath);
         if (Files.isDirectory(path)) {
             try (Stream<Path> walk = Files.walk(path)) {
-                walk.sorted(Comparator.reverseOrder())
-                        .forEach(
-                                p -> {
-                                    try {
-                                        Files.delete(p);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                });
+                List<Path> pathsToDelete = walk.sorted(Comparator.reverseOrder()).toList();
+                for (Path p : pathsToDelete) {
+                    Files.delete(p);
+                }
             }
         } else {
             Files.deleteIfExists(path);
