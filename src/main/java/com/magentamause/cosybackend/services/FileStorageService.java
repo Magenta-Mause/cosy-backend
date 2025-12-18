@@ -11,6 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileStorageService {
 
+    /**
+     * Immutable description of a single file system entry under storage.
+     *
+     * @param name the simple name of the entry (file or directory), without any parent path
+     * @param isDirectory {@code true} if this entry is a directory, {@code false} if it is a regular file
+     * @param size the size of the entry in bytes. For files, this is the file size as reported by
+     *             {@link java.nio.file.Files#size(Path)}. For directories, this is the value returned
+     *             by {@link java.nio.file.Files#size(Path)}, which is implementation-specific and
+     *             does not represent the recursive size of all contents.
+     */
     public record FileInfo(String name, boolean isDirectory, long size) {}
 
     public List<FileInfo> listFiles(Path rootPath, String relativePath) throws IOException {
