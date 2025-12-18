@@ -3,6 +3,7 @@ package com.magentamause.cosybackend.services;
 import com.magentamause.cosybackend.configs.GamesApiConfig;
 import com.magentamause.cosybackend.dtos.entitydtos.GameDto;
 import com.magentamause.cosybackend.dtos.gamesapi.GamesApiGamesResponse;
+import com.magentamause.cosybackend.exceptions.GamesApiError;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,19 +28,26 @@ public class GamesApiService {
                         .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                         .build();
 
-        GamesApiGamesResponse response =
-                client.get()
-                        .uri(
-                                uriBuilder ->
-                                        uriBuilder
-                                                .path("/games")
-                                                .queryParam("query", query)
-                                                .queryParam("include_hero", "true")
-                                                .queryParam("include_logo", "true")
-                                                .build())
-                        .retrieve()
-                        .bodyToMono(GamesApiGamesResponse.class)
-                        .block();
+        GamesApiGamesResponse response;
+        try {
+            response =
+                    client.get()
+                            .uri(
+                                    uriBuilder ->
+                                            uriBuilder
+                                                    .path("/games")
+                                                    .queryParam("query", query)
+                                                    .queryParam("include_hero", "true")
+                                                    .queryParam("include_logo", "true")
+                                                    .build())
+                            .retrieve()
+                            .bodyToMono(GamesApiGamesResponse.class)
+                            .block();
+        } catch (WebClientRequestException e) {
+            throw new GamesApiError("Failed to connect to Games API", e);
+        } catch (RuntimeException e) {
+            throw new GamesApiError("Unexpected error while calling Games API", e);
+        }
 
         if (response == null
                 || response.getData() == null

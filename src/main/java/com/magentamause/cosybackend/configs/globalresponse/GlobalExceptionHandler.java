@@ -1,6 +1,7 @@
 package com.magentamause.cosybackend.configs.globalresponse;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.magentamause.cosybackend.exceptions.GamesApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -122,6 +123,21 @@ public class GlobalExceptionHandler {
                                 .success(false)
                                 .data("Required cookie is missing")
                                 .error("Required cookie is missing.")
+                                .build());
+    }
+
+    @ExceptionHandler(GamesApiError.class)
+    public ResponseEntity<ApiResponse<?>> handleGamesApiError(
+            GamesApiError ex, HttpServletRequest request) {
+        log.warn("Games API error occurred", ex);
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body(
+                        ApiResponse.builder()
+                                .success(false)
+                                .data("Failed to communicate with Games API.")
+                                .error(ex.getMessage())
+                                .path(request.getRequestURI())
+                                .statusCode(HttpStatus.SERVICE_UNAVAILABLE.value())
                                 .build());
     }
 
