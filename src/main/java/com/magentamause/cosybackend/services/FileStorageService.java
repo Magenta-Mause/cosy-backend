@@ -55,7 +55,7 @@ public class FileStorageService {
             try (Stream<Path> walk = Files.walk(path)) {
                 List<Path> pathsToDelete = walk.sorted(Comparator.reverseOrder()).toList();
                 for (Path p : pathsToDelete) {
-                    Files.delete(p);
+                    Files.deleteIfExists(p);
                 }
             }
         } else {
