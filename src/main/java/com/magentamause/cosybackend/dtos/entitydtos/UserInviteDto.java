@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.magentamause.cosybackend.entities.UserEntity;
-import lombok.*;
-
 import java.time.Instant;
+import lombok.*;
 
 @Getter
 @Setter

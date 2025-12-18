@@ -1,6 +1,7 @@
 package com.magentamause.cosybackend.security.accessmanagement;
 
 import com.magentamause.cosybackend.services.SecurityContextService;
+import java.lang.annotation.Annotation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -8,8 +9,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
-import java.lang.annotation.Annotation;
 
 @Slf4j
 @Aspect
@@ -21,7 +20,8 @@ public class AuthorizationAspect {
     @Before("@annotation(requireAccess)")
     public void checkAccess(JoinPoint joinPoint, RequireAccess requireAccess) {
         Object specificId = findResourceId(joinPoint);
-        securityContextService.assertUserCan(requireAccess.action(), requireAccess.resource(), specificId);
+        securityContextService.assertUserCan(
+                requireAccess.action(), requireAccess.resource(), specificId);
     }
 
     private Object findResourceId(JoinPoint joinPoint) {

@@ -6,16 +6,15 @@ import com.magentamause.cosybackend.security.accessmanagement.Action;
 import com.magentamause.cosybackend.security.accessmanagement.Resource;
 import com.magentamause.cosybackend.security.accessmanagement.policies.AccessPolicy;
 import com.magentamause.cosybackend.security.jwtfilter.AuthenticationToken;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,8 +23,9 @@ public class SecurityContextService {
     private final Map<Resource, AccessPolicy> policies;
 
     public SecurityContextService(List<AccessPolicy> policies) {
-        this.policies = policies.stream()
-                .collect(Collectors.toMap(AccessPolicy::resource, Function.identity()));
+        this.policies =
+                policies.stream()
+                        .collect(Collectors.toMap(AccessPolicy::resource, Function.identity()));
     }
 
     public AuthenticationToken getAuthenticationToken() {
@@ -70,5 +70,4 @@ public class SecurityContextService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Insufficient permissions");
         }
     }
-
 }

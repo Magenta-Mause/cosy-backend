@@ -11,11 +11,10 @@ import com.magentamause.cosybackend.security.accessmanagement.ResourceId;
 import com.magentamause.cosybackend.services.GameServerConfigurationService;
 import com.magentamause.cosybackend.services.SecurityContextService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

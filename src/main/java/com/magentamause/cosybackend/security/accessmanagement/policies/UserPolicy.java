@@ -26,7 +26,8 @@ public class UserPolicy implements AccessPolicy {
                 return false;
             }
         }
-        if (user.getRole().equals(UserEntity.Role.OWNER) || user.getRole().equals(UserEntity.Role.ADMIN)) {
+        if (user.getRole().equals(UserEntity.Role.OWNER)
+                || user.getRole().equals(UserEntity.Role.ADMIN)) {
             return true;
         }
 

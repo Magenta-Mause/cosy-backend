@@ -9,9 +9,8 @@ import com.magentamause.cosybackend.entities.utility.PortMapping;
 import com.magentamause.cosybackend.entities.utility.VolumeMountConfiguration;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -54,13 +53,10 @@ public class GameServerCreationDto {
                 .volumeMounts(
                         this.getVolumeMounts() != null
                                 ? this.getVolumeMounts().stream()
-                                .map(VolumeMountConfiguration::fromDto)
-                                .toList()
+                                        .map(VolumeMountConfiguration::fromDto)
+                                        .toList()
                                 : null)
-                .portMappings(
-                        this.getPortMappings() != null
-                                ? this.getPortMappings()
-                                : List.of())
+                .portMappings(this.getPortMappings() != null ? this.getPortMappings() : List.of())
                 .build();
     }
 }

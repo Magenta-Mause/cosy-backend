@@ -13,13 +13,12 @@ import com.magentamause.cosybackend.services.SecurityContextService;
 import com.magentamause.cosybackend.services.UserEntityService;
 import com.magentamause.cosybackend.services.UserInviteService;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,8 +54,7 @@ public class UserInviteController {
                 .body(
                         userInviteService
                                 .createInvite(
-                                        securityContextService.getUserId(),
-                                        userInviteCreationDto)
+                                        securityContextService.getUserId(), userInviteCreationDto)
                                 .convertToDto());
     }
 

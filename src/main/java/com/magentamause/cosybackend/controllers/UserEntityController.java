@@ -7,12 +7,11 @@ import com.magentamause.cosybackend.security.accessmanagement.RequireAccess;
 import com.magentamause.cosybackend.security.accessmanagement.Resource;
 import com.magentamause.cosybackend.security.accessmanagement.ResourceId;
 import com.magentamause.cosybackend.services.UserEntityService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

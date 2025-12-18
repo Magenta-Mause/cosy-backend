@@ -25,7 +25,8 @@ public class GameServerPolicy implements AccessPolicy {
 
     @Override
     public boolean can(UserEntity user, Action action, Object referenceId) {
-        if (user.getRole().equals(UserEntity.Role.OWNER) || user.getRole().equals(UserEntity.Role.ADMIN)) {
+        if (user.getRole().equals(UserEntity.Role.OWNER)
+                || user.getRole().equals(UserEntity.Role.ADMIN)) {
             return true;
         }
 
@@ -37,10 +38,14 @@ public class GameServerPolicy implements AccessPolicy {
             return action == Action.READ;
         }
 
-        GameServerConfigurationEntity gameServerConfigurationEntity = gameServerConfigurationService.getGameServerById((String) referenceId);
+        GameServerConfigurationEntity gameServerConfigurationEntity =
+                gameServerConfigurationService.getGameServerById((String) referenceId);
 
         return switch (action) {
-            case READ, DELETE, UPDATE -> gameServerConfigurationEntity.getOwner().getUuid().equals(user.getUuid());
+            case READ, DELETE, UPDATE -> gameServerConfigurationEntity
+                    .getOwner()
+                    .getUuid()
+                    .equals(user.getUuid());
             default -> throw new IllegalStateException("Unexpected value: " + action);
         };
     }

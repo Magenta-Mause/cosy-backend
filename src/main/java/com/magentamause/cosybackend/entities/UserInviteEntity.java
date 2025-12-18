@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.magentamause.cosybackend.dtos.entitydtos.UserInviteDto;
 import jakarta.persistence.*;
+import java.time.Instant;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Getter
 @Setter

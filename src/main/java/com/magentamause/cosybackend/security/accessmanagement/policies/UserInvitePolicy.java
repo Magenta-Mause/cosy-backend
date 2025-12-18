@@ -15,6 +15,7 @@ public class UserInvitePolicy implements AccessPolicy {
 
     @Override
     public boolean can(UserEntity user, Action action, Object referenceId) {
-        return user.getRole().equals(UserEntity.Role.ADMIN) || user.getRole().equals(UserEntity.Role.OWNER);
+        return user.getRole().equals(UserEntity.Role.ADMIN)
+                || user.getRole().equals(UserEntity.Role.OWNER);
     }
 }
