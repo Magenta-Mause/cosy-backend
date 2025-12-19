@@ -4,9 +4,6 @@ import com.magentamause.cosybackend.dtos.actiondtos.UserInviteCreationDto;
 import com.magentamause.cosybackend.entities.UserEntity;
 import com.magentamause.cosybackend.entities.UserInviteEntity;
 import com.magentamause.cosybackend.repositories.UserInviteRepository;
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -31,7 +32,7 @@ public class UserInviteService {
     }
 
     public void revokeInvite(String inviteUuid) {
-        getInviteByUuid(inviteUuid);
+        getInviteByUuidOrElseThrow(inviteUuid);
         userInviteRepository.deleteById(inviteUuid);
     }
 
@@ -59,7 +60,7 @@ public class UserInviteService {
         return userInviteRepository.save(invite);
     }
 
-    public UserInviteEntity getInviteBySecretKey(String secretToken) {
+    public UserInviteEntity getInviteBySecretKeyOrElseThrow(String secretToken) {
         return userInviteRepository
                 .findBySecretKey(secretToken)
                 .orElseThrow(
@@ -68,7 +69,7 @@ public class UserInviteService {
                                         HttpStatus.NOT_FOUND, "Invite not found"));
     }
 
-    public UserInviteEntity getInviteByUuid(String inviteUuid) {
+    public UserInviteEntity getInviteByUuidOrElseThrow(String inviteUuid) {
         return userInviteRepository
                 .findById(inviteUuid)
                 .orElseThrow(
@@ -77,15 +78,17 @@ public class UserInviteService {
                                         HttpStatus.NOT_FOUND, "Invite not found"));
     }
 
+    private UserInviteEntity getInviteBySecretKeyWithLockOrElseThrow(String username) {
+        return userInviteRepository.findBySecretKeyLocked(username).orElseThrow(
+                () ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND, "Invite not found")
+        );
+    }
+
     @Transactional
     public UserEntity useInvite(String secretKey, String username, String password) {
-        UserInviteEntity invite =
-                userInviteRepository
-                        .findBySecretKeyLocked(secretKey)
-                        .orElseThrow(
-                                () ->
-                                        new ResponseStatusException(
-                                                HttpStatus.NOT_FOUND, "Invite not found"));
+        UserInviteEntity invite = getInviteBySecretKeyWithLockOrElseThrow(secretKey);
 
         UserEntity.Role inviteRole =
                 switch (invite.getRole()) {
