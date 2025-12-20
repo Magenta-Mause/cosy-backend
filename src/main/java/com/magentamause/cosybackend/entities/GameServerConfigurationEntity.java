@@ -32,7 +32,7 @@ public class GameServerConfigurationEntity {
 
     private LocalDateTime timestampLastStarted;
 
-    private String gameUuid;
+    private Number gameId;
 
     @Column(nullable = false)
     private String dockerImageName;
@@ -79,7 +79,7 @@ public class GameServerConfigurationEntity {
                 .owner(this.getOwner().toDto())
                 .status(this.getStatus())
                 .timestampLastStarted(this.getTimestampLastStarted())
-                .gameUuid(this.getGameUuid())
+                .gameId(this.getGameId())
                 .dockerImageName(this.getDockerImageName())
                 .dockerImageTag(this.getDockerImageTag())
                 .template(this.getTemplate())

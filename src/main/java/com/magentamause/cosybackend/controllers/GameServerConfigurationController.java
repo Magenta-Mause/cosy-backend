@@ -51,7 +51,7 @@ public class GameServerConfigurationController {
         GameServerConfigurationEntity createdGameServer =
                 GameServerConfigurationEntity.builder()
                         .owner(user)
-                        .gameUuid(gameServerCreationDto.getGameUuid())
+                        .gameId(gameServerCreationDto.getGameId())
                         .serverName(gameServerCreationDto.getServerName())
                         .template(gameServerCreationDto.getTemplate())
                         .dockerImageName(gameServerCreationDto.getDockerImageName())

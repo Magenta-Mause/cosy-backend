@@ -58,7 +58,7 @@ public class DummyDataService {
                                 .owner(adminUser)
                                 .status(RUNNING)
                                 .timestampLastStarted(LocalDateTime.now().minusHours(2))
-                                .gameUuid("game-minecraft")
+                                .gameId(1000)
                                 .dockerImageName("itzg/minecraft-server")
                                 .dockerImageTag("latest")
                                 .dockerExecutionCommand(
@@ -87,7 +87,7 @@ public class DummyDataService {
                                 .owner(adminUser)
                                 .status(STOPPED)
                                 .timestampLastStarted(LocalDateTime.now().minusDays(1))
-                                .gameUuid("game-valheim")
+                                .gameId(1001)
                                 .dockerImageName("lloesche/valheim-server")
                                 .dockerImageTag("latest")
                                 .dockerExecutionCommand(List.of("./start_server.sh"))
@@ -120,7 +120,7 @@ public class DummyDataService {
                                 .owner(adminUser)
                                 .status(FAILED)
                                 .timestampLastStarted(LocalDateTime.now().minusMinutes(30))
-                                .gameUuid("game-cs2")
+                                .gameId(1002)
                                 .dockerImageName("cm2network/cs2")
                                 .dockerImageTag("stable")
                                 .dockerExecutionCommand(

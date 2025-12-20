@@ -12,6 +12,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
@@ -29,7 +31,7 @@ public class GameServerDto {
 
     @NotNull @Valid private LocalDateTime timestampLastStarted;
 
-    @NotBlank private String gameUuid;
+    @NotNull @Positive private Number gameId;
 
     @NotBlank private String dockerImageName;
 
