@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ApiResponse<?>> handleResponseStatusException(
             ResponseStatusException ex, HttpServletRequest request) {
-        log.warn("Response status exception occurred", ex);
+        log.debug("Response status exception occurred {}", ex);
         return ResponseEntity.status(ex.getStatusCode())
                 .body(
                         ApiResponse.builder()
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleResourceNotFound(NoResourceFoundException ex) {
-        log.warn("Resource not found: \"{}\"", ex.getResourcePath());
+        log.debug("Resource not found: {}", ex.getResourcePath());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(
                         ApiResponse.builder()
